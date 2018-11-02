@@ -1,0 +1,30 @@
+/*	 정렬순서 추가	*/
+
+drop table t_ordersheet;
+
+CREATE TABLE `t_ordersheet` (
+			`ordersheet_id` int(10) NOT NULL AUTO_INCREMENT,
+			`sample1` varchar(100) DEFAULT NULL,
+			`sample2` varchar(100) DEFAULT NULL,
+			`sample3` varchar(100) DEFAULT NULL,
+			`sample4` varchar(100) DEFAULT NULL,
+			`sample5` varchar(100) DEFAULT NULL,
+			`sample6` varchar(100) DEFAULT NULL,
+			`sample7` varchar(100) DEFAULT NULL,
+			`sample8` varchar(100) DEFAULT NULL,
+			`sample9` varchar(100) DEFAULT NULL,
+			`sample10` varchar(100) DEFAULT NULL,
+			`del_yn` char(1) DEFAULT 'N', 
+			`in_date` datetime DEFAULT NULL,
+			`in_user` varchar(50) DEFAULT NULL, 
+			`in_ip` varchar(20) DEFAULT NULL, 
+			`up_date` datetime DEFAULT NULL,
+			`up_user` varchar(50) DEFAULT NULL, 
+			`up_ip` varchar(20) DEFAULT NULL,
+			PRIMARY KEY (`ordersheet_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO t_ordersheet(sample1,sample2,sample3,sample4,sample5,sample6,sample7,sample8,sample9,sample10,in_date) VALUES ('샘플1','샘플2','샘플3','샘플4','샘플5','샘플6','샘플7','샘플8','샘플9','샘플10', now());
+
+INSERT INTO t_ordersheet(sample1,sample2,sample3,sample4,sample5,sample6,sample7,sample8,sample9,sample10,del_yn,in_date)SELECT sample1,sample2,sample3,sample4,sample5,sample6,sample7,sample8,sample9,sample10,del_yn,now()FROM t_ordersheet;

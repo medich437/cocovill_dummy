@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+<properties>
+
+	<comment>프로퍼티</comment>
+
+<!--S: 로컬|서버 구분해서 해야함 -->
+	<!-- DB 스키마명 -->
+	<!-- 서버 -->
+	<entry key="TABLESC">siro9866</entry>
+
+	<entry key="alertSaveOk">저장되었습니다.</entry>
+	<entry key="alertFail">일시적인 오류입니다. 관리자에게 문의 하세요</entry>
+
+	<!-- 테이블 명 -->
+	<entry key="TABLE_T_BOARD">t_board</entry>
+	<entry key="TABLE_T_BOOTSTRAP">t_bootstrap</entry>
+	
+	<!-- 페이징 -->
+	<entry key="PAGENUM">1</entry>
+	<entry key="PAGESIZE_10">10</entry>
+	<entry key="PAGESIZE_20">20</entry>
+	<entry key="BLOCKSIZE_10">10</entry>	
+	<entry key="BLOCKSIZE_20">20</entry>
+	
+	<!--  상태코드 -->
+	<entry key="STATUS_S_CODE">0000</entry>
+	<entry key="STATUS_S_MSG">성공</entry>
+	<entry key="STATUS_F_CODE">9999</entry>
+	<entry key="STATUS_F_MSG">실패</entry>
+	
+	
+</properties>

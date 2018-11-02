@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/ryan?characterEncoding=UTF-8&amp;serverTimezone=UTC"/>
+		<property name="username" value="ryan"/>
+		<property name="password" value="1234"/>
+	</bean>
+
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="SQL	 :	" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id ="sqlSessionFactory" class= "org.mybatis.spring.SqlSessionFactoryBean" >
+		<property name ="dataSource" ref= "dataSource"></property >
+		<property name ="configLocation" value= "/WEB-INF/spring/mybatis-config.xml" ></property >
+	</bean >
+
+	<bean id ="sqlSession" class= "org.mybatis.spring.SqlSessionTemplate" >
+		<constructor-arg index="0" ref= "sqlSessionFactory"></constructor-arg >
+	</bean >
+
+	<!-- 자동으로 AOP 사용 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+		
+</beans>
