@@ -18,7 +18,7 @@ function logout(){
 			var data = responseData.resultJson;
 			if(data.rCode == "${STATUS_S_CODE}"){
 				alert(data.rMsg);
-				$(location).attr("href", "/");
+				$(location).attr("href", data.goUrl);
 			}else{
 				alert(data.rMsg);
 				return;
@@ -63,9 +63,8 @@ function logout(){
 					<a class="navbar-brand" href="/"><img src="/resources/assets/img/logo.png" /></a>
 				</div>
 
-				<span class="logout-spn"> ${sessionScope.USER_ID }<a href="javascript:logout()" style="color: #fff;">LOGOUT</a>
-
-				</span>
+				<span class="logout-spn"><a href="javascript:logout()" style="color: #fff;">${sessionScope.USER_ID }님 로그아웃</a></span>
+<!-- 				<span class="logout-spn"><a href="javascript:logout()" style="color: #fff;">LOGOUT</a></span> -->
 				
 			</div>
 		</div>
