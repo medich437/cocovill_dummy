@@ -1,0 +1,6 @@
+/*==============================================
+    Custom  STYLES    
+    =============================================*/
+
+table tbody tr th{text-align: right; margin-right: 1em;}
+table tbody tr td{text-align: left; margin-left: 1em;}

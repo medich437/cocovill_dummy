@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace= "uploadSheet">
+
+
+	<select id ="uploadSheetList" parameterType="com.cocovill.order.dto.UploadSheetDto" resultType="com.cocovill.order.dto.UploadSheetDto">
+		/* sample.uploadSheet.uploadSheetList */
+
+		select @i as totCnt, a.*
+		from
+		(
+			select
+				@i := @i + 1 as rowNum
+				, CEIL((@j := @j + 1)/#{pageSize}) as pageNum
+				, imsi.*
+			from(
+			
+						<include refid="listQuery"/>
+						
+						order by sample.uploadSheet_id desc
+						
+				) imsi, (select @i := 0, @j := 0) temp		
+		) a			
+		where pageNum = #{pageNum}
+		order by uploadSheet_id desc
+	</select>
+	
+	
+	<sql id="listQuery">
+		/*	listQuery 리스트 쿼리	*/
+		select
+			sample.uploadSheet_id
+			, sample.sample1
+			, sample.sample2
+			, sample.sample3
+			, sample.sample4
+			, sample.sample5
+			, sample.sample6
+			, sample.sample7
+			, sample.sample8
+			, sample.sample9
+			, sample.sample10
+			, sample.del_yn
+			, sample.in_date
+			, sample.in_user
+			, sample.in_ip 
+		from t_uploadSheet sample
+		where del_yn = 'N'
+		<if test="searchValue != null and searchValue != ''">
+		and (sample.sample1 like CONCAT('%', #{searchValue}, '%') or sample.sample2 like CONCAT('%', #{searchValue}, '%') or sample.sample3 like CONCAT('%', #{searchValue}, '%'))
+		</if>
+		<if test="searchFromDt != null and searchToDt != ''">
+		and DATE(sample.in_date) between #{searchFromDt} and #{searchToDt}
+		</if>
+		
+	</sql>	
+	
+	
+	<select id ="uploadSheetDetail" parameterType="com.cocovill.order.dto.UploadSheetDto" resultType="com.cocovill.order.dto.UploadSheetDto">
+		/* sample.uploadSheet.uploadSheetDetail */
+		select
+			uploadSheet_id
+			, sample1
+			, sample2
+			, sample3
+			, sample4
+			, sample5
+			, sample6
+			, sample7
+			, sample8
+			, sample9
+			, sample10
+			, del_yn
+		from t_uploadSheet
+		where del_yn = 'N'
+		and uploadSheet_id = #{uploadSheet_id}
+	</select>
+	
+	<insert id ="uploadSheetInsert" parameterType="com.cocovill.order.dto.UploadSheetDto">
+		/* sample.uploadSheet.uploadSheetInsert */
+		insert into t_uploadSheet( 
+			sample1
+			, sample2
+			, sample3
+			, sample4
+			, sample5
+			, sample6
+			, sample7
+			, sample8
+			, sample9
+			, sample10
+			, in_date
+			, in_user
+			, in_ip 
+		) values ( 
+			#{sample1}
+			, #{sample2}
+			, #{sample3}
+			, #{sample4}
+			, #{sample5}
+			, #{sample6}
+			, #{sample7}
+			, #{sample8}
+			, #{sample9}
+			, #{sample10}
+			, NOW()
+			, #{in_user}
+			, #{in_ip}
+			)
+	</insert>
+	
+	<update id="uploadSheetUpdate" parameterType="com.cocovill.order.dto.UploadSheetDto">
+		/* sample.uploadSheet.uploadSheetUpdate */
+		update t_uploadSheet 
+			set
+			sample1 = #{sample1}
+			, sample2 = #{sample2}
+			, sample3 = #{sample3}
+			, sample4 = #{sample4}
+			, sample5 = #{sample5}
+			, sample6 = #{sample6}
+			, sample7 = #{sample7}
+			, sample8 = #{sample8}
+			, sample9 = #{sample9}
+			, sample10 = #{sample10}
+			, up_date = NOW()
+			, up_user = #{up_user}
+			, up_ip = #{up_ip}
+		where uploadSheet_id = #{uploadSheet_id}
+	</update>
+
+	<update id="uploadSheetDelete" parameterType="com.cocovill.order.dto.UploadSheetDto">
+		/* sample.uploadSheet.uploadSheetDelete */
+		update t_uploadSheet 
+			set
+			del_yn = 'Y'
+			, up_date = NOW()
+			, up_user = #{up_user}
+			, up_ip = #{up_ip}
+		where uploadSheet_id = #{uploadSheet_id}
+	</update>
+	
+	<select id ="autoSeq" resultType="String" parameterType="HashMap">
+		/* sample.autoSeq */
+		SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES
+		 WHERE TABLE_SCHEMA = #{tableSC}
+		 AND TABLE_NAME = #{tableNM}
+	</select>
+	
+</mapper>

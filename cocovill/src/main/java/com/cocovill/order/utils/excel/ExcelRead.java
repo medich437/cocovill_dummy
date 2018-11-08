@@ -75,7 +75,10 @@ public class ExcelRead {
 						/*
 						 * Row에서 CellIndex에 해당하는 Cell을 가져온다.
 						 */
-						cell = row.getCell(cellIndex);
+//						cell = row.getCell(cellIndex);
+						cell = row.getCell(cellIndex, Row.CREATE_NULL_AS_BLANK);
+						
+						
 						/*
 						 * 현재 Cell의 이름을 가져온다 이름의 예 : A,B,C,D,......
 						 */

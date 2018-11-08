@@ -29,6 +29,9 @@ public class ExcelCellRef {
 		if (cell == null) {
 			value = "";
 		}
+		System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+		System.out.println(cell);
+		
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_FORMULA:
 			value = cell.getCellFormula();

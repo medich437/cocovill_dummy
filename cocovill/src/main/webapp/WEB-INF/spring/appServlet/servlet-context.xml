@@ -44,6 +44,10 @@
 		<beans:property name="order" value="0"></beans:property>
 	</beans:bean>  
 	
+	<!-- File upload -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000"></beans:property>
+	</beans:bean>
 	
 	<!-- 스케쥴러파일이 존재하는 패키지 설정 -->
 	<!-- 해당 태그들은 크론탭을 설정에 필요한 태그들 -->
