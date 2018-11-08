@@ -22,7 +22,7 @@
 			<div id="page-inner">
 				<div class="row">
 					<div class="col-lg-12">
-						<h2>ADMIN DASHBOARD</h2>
+						<h2>회원관리</h2>
 					</div>
 				</div>
 				<!-- /. ROW  -->
@@ -33,56 +33,14 @@
 						<form name="frm" id="frm" method="post">
 							<input type="hidden" name="pageNum" id="pageNum" value="${paramDto.pageNum}"/>
 							<input type="hidden" name="searchValue" value="${paramDto.searchValue}"/>
-							<input type="hidden" name="searchFromDt" value="${paramDto.searchFromDt }"/>					
-							<input type="hidden" name="searchToDt" value="${paramDto.searchToDt }"/>					
-							<input type="hidden" name="ordersheet_id" id="ordersheet_id" value="${result.ordersheet_id }"/>		
-						
-							<input type="hidden" name="sample1" id="sample1"/>
 							
 							<div class="form-group">
-								<label for="board_cat">카테고리</label>
-								<select name="isample1" id="isample1" class="form-control">
-									<option value="sample1">sample1</option>
-									<option value="하하하">하하하</option>
-									<option value="히히히">히히히</option>
-								</select>
-							</div>
-							
-							<div class="form-group">
-								<label for="sample2">sample2</label>
-								<input type="text" name="sample2" id="sample2" class="form-control" placeholder="sample2" value="${result.sample2 }" />
+								<label for="user_id">아이디</label>
+								<input type="text" name="user_id" id="user_id" class="form-control" placeholder="아이디" value="${result.user_id }" />
 							</div>
 							<div class="form-group">
-								<label for="sample3">sample3</label>
-								<input type="text" name="sample3" id="sample3" class="form-control" placeholder="sample3" value="${result.sample3 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample4">sample4</label>
-								<input type="text" name="sample4" id="sample4" class="form-control" placeholder="sample4" value="${result.sample4 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample5">sample5</label>
-								<input type="text" name="sample5" id="sample5" class="form-control" placeholder="sample5" value="${result.sample5 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample6">sample6</label>
-								<input type="text" name="sample6" id="sample6" class="form-control" placeholder="sample6" value="${result.sample6 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample7">sample7</label>
-								<input type="text" name="sample7" id="sample7" class="form-control" placeholder="sample7" value="${result.sample7 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample8">sample8</label>
-								<input type="text" name="sample8" id="sample8" class="form-control" placeholder="sample8" value="${result.sample8 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample9">sample9</label>
-								<input type="text" name="sample9" id="sample9" class="form-control" placeholder="sample9" value="${result.sample9 }" />
-							</div>
-							<div class="form-group">
-								<label for="sample10">sample10</label>
-								<input type="text" name="sample10" id="sample10" class="form-control" placeholder="sample10" value="${result.sample10 }" />
+								<label for="user_pw">비밀번호</label>
+								<input type="password" name="user_pw" id="user_pw" class="form-control" placeholder=비밀번호 value="${result.user_pw }" />
 							</div>
 						</form>
 					</div>
@@ -109,31 +67,23 @@
 	<%@include file="/WEB-INF/views/include/footer.jsp"%>
 	<!-- E:FILE:footer.jsp -->
 
-	<!-- Smart Editor -->
-	<script src="/resources/smarteditor2-master/dist/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-
-
 <script>
-var listUrl = "/ordersheet/ordersheetList.do";
-var updateUrl = "/ordersheet/ordersheetUpdate.do";
-var insertUrl = "/ordersheet/ordersheetInsert.do";
+var listUrl = "/user/userList.do";
+var updateUrl = "/user/userUpdate.do";
+var insertUrl = "/user/userInsert.do";
 
 
 $(function(){
-	
-	//초기값
-	if("${empty result.ordersheet_id}"){
-		$("select option:eq(0)").attr("selected", "selected");
-	}else{
-		$("#isample1").val("${result.sample1}");
-	}
-	
 	
 	//목록 이벤트
 	$("#btnList").bind("click", function(){
 		$("form[name=frm]").attr("action", listUrl);
 		$("form[name=frm]").submit();
 	});
+	
+	if(${!empty result.user_id}){
+		$("#user_id").prop("readonly", true);
+	}
 	
 	//등록 이벤트
 	$("#btnSave").bind("click", function(){
@@ -143,14 +93,11 @@ $(function(){
 		}
 		
 		var goUrl = "";
-		if($("#ordersheet_id").val().length > 0){
+		if(${!empty result.user_id }){
 			goUrl = updateUrl;
 		}else{
 			goUrl = insertUrl;
 		}
-
-		$("#sample1").val($("#isample1 option:selected").val());
-
 
 		$.ajax({
 			type:"post",
@@ -166,7 +113,7 @@ $(function(){
 					$("form[name=frm]").attr("action", data.goUrl);
 					$("form[name=frm]").submit();
 				}else{
-					alert(data.rMsg);
+					alert(data.rMsg + "\n" +data.rReason);
 					return;
 				}	
 			},

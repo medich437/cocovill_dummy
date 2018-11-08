@@ -4,14 +4,9 @@
 <configuration>
 	<mappers>
 
-		<!--  ADMIN -->	
 
+		<mapper resource ="/sql/user.xml"/>
 
-		<!--  FRONT -->	
-		
-		<!-- COMMON -->
-		
-		<!-- SAMPLE -->
 		<mapper resource ="/sql/ordersheet.xml"/>
 		
 	</mappers>

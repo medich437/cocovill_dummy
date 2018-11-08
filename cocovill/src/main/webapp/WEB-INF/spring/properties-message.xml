@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+<properties>
+
+	<comment>프로퍼티-메세지</comment>
+
+	<!-- 회원관리 -->
+	<entry key="USER_MSG01">관리자 아이디는 탈퇴 할 수 없습니다.</entry>
+	<entry key="USER_MSG02">이미 사용중인 아이디 입니다.</entry>
+	
+	<!-- 로그인 -->
+	<entry key="LOGIN_MSG01">로그인 되었습니다.</entry>
+	<entry key="LOGIN_MSG02">아이디 및 비밀번호를 확인해 주세요.</entry>
+	<entry key="LOGIN_MSG03">로그아웃 되었습니다.</entry>
+	
+</properties>

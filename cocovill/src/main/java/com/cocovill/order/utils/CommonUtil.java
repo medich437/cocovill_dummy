@@ -32,7 +32,11 @@ public class CommonUtil {
 	 * 오류는 아니지만 특별한 메세지가 필요할 경우
 	 */
 	public static void getReturnCodeSuc(JSONObject json, String rMsg){
-		json.put("rCode", "1111");
+		json.put("rCode", "0000");
+		json.put("rMsg", rMsg);
+	}
+	public static void getReturnCodeSuc(JSONObject json, String rCode, String rMsg){
+		json.put("rCode", rCode);
 		json.put("rMsg", rMsg);
 	}
 	
@@ -63,8 +67,7 @@ public class CommonUtil {
 	 */
 	public static void getReturnCodeFail(JSONObject json, String str){
 		json.put("rCode", "9999");
-		json.put("rMsg", "실패");
-		json.put("rReason", str);
+		json.put("rMsg", str);
 		logger.info("FAIL_PROCESS:"+json.toString());
 	}
 	

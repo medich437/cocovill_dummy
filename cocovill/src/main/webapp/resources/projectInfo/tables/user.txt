@@ -1,0 +1,22 @@
+/*	 정렬순서 추가	*/
+
+drop table t_user;
+
+CREATE TABLE `t_user` (
+			`user_id` varchar(100) NOT NULL,
+			`user_pw` varchar(100) NOT NULL,
+			`last_login_date` datetime DEFAULT NULL,
+			`last_login_ip` varchar(20) DEFAULT NULL, 
+			`del_yn` char(1) DEFAULT 'N', 
+			`in_date` datetime DEFAULT NULL,
+			`in_user` varchar(50) DEFAULT NULL, 
+			`in_ip` varchar(20) DEFAULT NULL, 
+			`up_date` datetime DEFAULT NULL,
+			`up_user` varchar(50) DEFAULT NULL, 
+			`up_ip` varchar(20) DEFAULT NULL,
+			PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO t_user(user_id,user_pw,in_date) VALUES ('admin','1111', now());
+

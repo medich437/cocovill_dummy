@@ -16,6 +16,8 @@
 	<entry key="TABLE_T_BOARD">t_board</entry>
 	<entry key="TABLE_T_BOOTSTRAP">t_bootstrap</entry>
 	
+	<entry key="ADMIN_ID">admin</entry>
+	
 	<!-- 페이징 -->
 	<entry key="PAGENUM">1</entry>
 	<entry key="PAGESIZE_10">10</entry>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace= "user">
+
+
+	<select id ="userList" parameterType="com.cocovill.order.dto.UserDto" resultType="com.cocovill.order.dto.UserDto">
+		/* user.userList */
+
+		select @i as totCnt, a.*
+		from
+		(
+			select
+				@i := @i + 1 as rowNum
+				, CEIL((@j := @j + 1)/#{pageSize}) as pageNum
+				, imsi.*
+			from(
+			
+						<include refid="listQuery"/>
+						
+						order by user.user_id desc
+						
+				) imsi, (select @i := 0, @j := 0) temp		
+		) a			
+		where pageNum = #{pageNum}
+		order by user_id desc
+	</select>
+	
+	
+	<sql id="listQuery">
+		/*	listQuery 리스트 쿼리	*/
+		select
+			user.user_id
+			, user.user_pw
+			, user.last_login_date
+			, user.last_login_ip
+			, user.del_yn
+			, user.in_date
+			, user.in_user
+			, user.in_ip 
+			, user.up_date
+			, user.up_user
+			, user.up_ip 
+		from t_user user
+		where del_yn = 'N'
+		<if test="searchValue != null and searchValue != ''">
+		and (user.user_id like CONCAT('%', #{searchValue}, '%'))
+		</if>
+		
+	</sql>	
+	
+	<select id ="userDetail" parameterType="com.cocovill.order.dto.UserDto" resultType="com.cocovill.order.dto.UserDto">
+		/* user.userDetail */
+		select
+			user_id
+			, user_pw
+			, last_login_date
+			, last_login_ip
+			, del_yn
+			, in_date
+			, in_user
+			, in_ip 
+			, up_date
+			, up_user
+			, up_ip 
+		from t_user
+		where del_yn = 'N'
+		and user_id = #{user_id}
+	</select>
+	
+	<insert id ="userInsert" parameterType="com.cocovill.order.dto.UserDto">
+		/* user.userInsert */
+		insert into t_user( 
+			user_id
+			, user_pw
+			, in_date
+			, in_user
+			, in_ip 
+		) values ( 
+			trim(#{user_id})
+			, trim(#{user_pw})
+			, NOW()
+			, #{in_user}
+			, #{in_ip}
+			)
+	</insert>
+	
+	<select id ="userDupCheck" parameterType="com.cocovill.order.dto.UserDto" resultType="com.cocovill.order.dto.UserDto">
+		/* user.userDupCheck */
+		select
+			user_id
+			, user_pw
+			, last_login_date
+			, last_login_ip
+			, del_yn
+			, in_date
+			, in_user
+			, in_ip 
+			, up_date
+			, up_user
+			, up_ip 
+		from t_user
+		where user_id = trim(#{user_id})
+	</select>
+	
+	<update id="userUpdate" parameterType="com.cocovill.order.dto.UserDto">
+		/* user.userUpdate */
+		update t_user 
+			set
+			user_pw = trim(#{user_pw})
+			, up_date = NOW()
+			, up_user = #{up_user}
+			, up_ip = #{up_ip}
+		where user_id = #{user_id}
+	</update>
+
+	<update id="userDelete" parameterType="com.cocovill.order.dto.UserDto">
+		/* user.userDelete 탈퇴 */
+		update t_user 
+			set
+			del_yn = 'Y'
+			, up_date = NOW()
+			, up_user = #{up_user}
+			, up_ip = #{up_ip}
+		where user_id = #{user_id}
+	</update>
+	
+	<select id ="userLogin" parameterType="com.cocovill.order.dto.UserDto" resultType="com.cocovill.order.dto.UserDto">
+		/* user.userLogin 로그인 */
+		select
+			 user_id
+			, user_pw
+			, last_login_date
+			, last_login_ip
+			, del_yn
+			, in_date
+			, in_user
+			, in_ip 
+			, up_date
+			, up_user
+			, up_ip 
+		from t_user
+		where del_yn = 'N'
+		and user_id = #{user_id}
+		and user_pw = #{user_pw}
+	</select>
+	
+	<update id="userLoginUpdate" parameterType="com.cocovill.order.dto.UserDto">
+		/* user.userLoginUpdate 로그인업데이트 */
+		update t_user 
+			set
+			last_login_date = NOW()
+			, last_login_ip = #{up_ip}
+		where user_id = #{user_id}
+	</update>
+	
+</mapper>
