@@ -134,9 +134,24 @@ body#LoginForm {
 
 <spring:eval expression="@config['STATUS_S_CODE']" var="STATUS_S_CODE" />
 <script>
+
+//검색어 키업 이벤트발생시 검색버튼 활성화 및 엔터키 이벤트 발생
+$("input[name=user_id], input[name=user_pw]").on("keyup", function(e){
+	//엔터키 클릭시 검색
+	if (e.keyCode == 13){
+		$("#btnLogin" ).trigger("click" );
+	}
+});
+
 //로그인 이벤트
 $("#btnLogin").bind("click", function(){
 	var goUrl = "/user/userLogin.do";
+	
+	if(!$("input[name=user_id]").val() || !$("input[name=user_pw]").val()){
+		alert("아이디, 비밀번호를 입력하세요");
+		return false;
+	}
+	
 	$.ajax({
 		type:"post",
 		async:true,
