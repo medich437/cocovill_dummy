@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.cocovill.order.dto.UserDto;
 import com.cocovill.order.user.dao.UserDAO;
+import com.cocovill.order.utils.CommonUtil;
 
 import net.sf.json.JSONObject;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public JSONObject userInsert(UserDto userDto, HttpServletRequest request){
 		JSONObject json = new JSONObject();
+		CommonUtil.setInUserInfo(request, userDto);
 		userDAO.userInsert(userDto);
 		return json;
 	}
@@ -48,6 +50,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public JSONObject userUpdate(UserDto userDto, HttpServletRequest request){
 		JSONObject json = new JSONObject();
+		CommonUtil.setUpUserInfo(request, userDto);
 		userDAO.userUpdate(userDto);
 		return json;
 	}
@@ -55,6 +58,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public JSONObject userDelete(UserDto userDto, HttpServletRequest request){
 		JSONObject json = new JSONObject();
+		CommonUtil.setUpUserInfo(request, userDto);
 		userDAO.userDelete(userDto);
 		return json;
 	}
@@ -67,6 +71,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public JSONObject userLoginUpdate(UserDto userDto, HttpServletRequest request){
 		JSONObject json = new JSONObject();
+		CommonUtil.setUpUserInfo(request, userDto);
 		userDAO.userLoginUpdate(userDto);
 		return json;
 	}

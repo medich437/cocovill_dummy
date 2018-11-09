@@ -34,6 +34,7 @@ public class UserController {
 	
 	@Value("#{config['ADMIN_ID']}") String ADMIN_ID;
 	
+	@Value("#{msgconfig['EXCEPTION_MSG']}") String EXCEPTION_MSG;
 	@Value("#{msgconfig['USER_MSG01']}") String USER_MSG01;
 	@Value("#{msgconfig['USER_MSG02']}") String USER_MSG02;
 	@Value("#{msgconfig['LOGIN_MSG01']}") String LOGIN_MSG01;
@@ -86,12 +87,7 @@ public class UserController {
 		mav.setViewName("/user/userDetail");
 		UserDto result = null;
 		
-		try {
-			result = userService.userDetail(userDto);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		result = userService.userDetail(userDto);
 		
 		mav.addObject("paramDto", userDto);
 		mav.addObject("result", result);
@@ -137,9 +133,6 @@ public class UserController {
 		CommonUtil.getReturnCodeFail(json);
 		
 		try {
-			//사용자정보
-			CommonUtil.setInUserInfo(request, userDto);		
-			
 			UserDto dupCheck = userService.userDupCheck(userDto);
 			if(dupCheck != null) {
 				CommonUtil.getReturnCodeFail(json, USER_MSG02);
@@ -154,7 +147,7 @@ public class UserController {
 			json.put("goUrl", "/user/userList.do");
 		} catch (Exception e) {
 			//저장 실패시 코드값 세팅
-			logger.info("EXCEPTION insert E:" + e.toString());
+			logger.info(EXCEPTION_MSG + e.toString());
 			CommonUtil.getReturnCodeFail(json, e.toString());
 		}
 		//결과값 전송
@@ -182,7 +175,6 @@ public class UserController {
 		try {
 			
 			//사용자정보
-			CommonUtil.setUpUserInfo(request, userDto);
 			json = userService.userUpdate(userDto, request);
 			//저장 성공시 코드값 세팅
 			CommonUtil.getReturnCodeSuc(json);
@@ -221,13 +213,12 @@ public class UserController {
 		}else {
 			try {
 				//사용자정보
-				CommonUtil.setUpUserInfo(request, userDto);			
 				json = userService.userDelete(userDto, request);
 				CommonUtil.getReturnCodeSuc(json);
 				json.put("goUrl", "/user/userList.do");
 			} catch (Exception e) {
 				// TODO: handle exception
-				logger.info("PROGRAM_Exception:"+e);
+				logger.info(EXCEPTION_MSG+e);
 				CommonUtil.getReturnCodeFail(json);
 			}
 		}
@@ -251,6 +242,14 @@ public class UserController {
 		if(result == null) {
 			CommonUtil.getReturnCodeFail(json, LOGIN_MSG02);
 		}else {
+			// 로그인 성공 최근 로그인일 및 최근로그인IP 업데이트
+			try {
+				userService.userLoginUpdate(userDto, request);
+			}catch (Exception e) {
+				e.printStackTrace();
+				logger.info(EXCEPTION_MSG+"로그인 성공 최근 로그인일 및 최근로그인IP 업데이트");
+			}
+			
 			CommonUtil.getReturnCodeSuc(json, LOGIN_MSG01);
 			json.put("goUrl", "/uploadSheet/uploadSheetList.do");
 			session.setAttribute("USER_ID", userDto.getUser_id());
@@ -271,7 +270,7 @@ public class UserController {
 		
 		//저장후 페이지 이동
 		CommonUtil.getReturnCodeSuc(json, LOGIN_MSG03);
-		json.put("goUrl", "/user/loginForm.do");
+		json.put("goUrl", "/user/userLoginForm.do");
 		session.invalidate();
 		//결과값 전송
 		logger.info(json.toString());
@@ -280,10 +279,10 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value="/loginForm")
-	public ModelAndView loginForm(@ModelAttribute UserDto userDto, HttpServletRequest request, HttpServletResponse response, HttpSession session){
+	@RequestMapping(value="/userLoginForm")
+	public ModelAndView userLoginForm(@ModelAttribute UserDto userDto, HttpServletRequest request, HttpServletResponse response, HttpSession session){
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/user/loginForm");
+		mav.setViewName("/user/userLoginForm");
 		mav.addObject("paramDto", userDto);
 		return mav;
 	}

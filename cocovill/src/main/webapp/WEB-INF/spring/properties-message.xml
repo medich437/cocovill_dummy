@@ -3,6 +3,8 @@
 <properties>
 
 	<comment>프로퍼티-메세지</comment>
+	
+	<entry key="EXCEPTION_MSG">Exception:</entry>
 
 	<!-- 회원관리 -->
 	<entry key="USER_MSG01">관리자 아이디는 탈퇴 할 수 없습니다.</entry>
